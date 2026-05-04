@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from app.models.recipe import Recipe
 
 search_bp = Blueprint('search', __name__)
 
@@ -10,4 +11,9 @@ def search_recipe():
     - 利用關鍵字對食譜 Title 進行模糊查詢
     - 渲染 templates/search/results.html 呈現搜尋結果
     """
-    pass
+    query = request.args.get('q', '')
+    if query:
+        recipes = Recipe.search(query)
+    else:
+        recipes = []
+    return render_template('search/results.html', recipes=recipes, query=query)

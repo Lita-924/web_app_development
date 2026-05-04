@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- 左側：新增分類表單 -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">新增分類</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('category.create_category') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label fw-bold">分類名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="例如：日式料理">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-bold">分類描述</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="（選填）"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">建立分類</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右側：分類列表 -->
+    <div class="col-md-8">
+        <h4 class="mb-3">所有分類清單</h4>
+        {% if categories %}
+        <div class="list-group shadow-sm">
+            {% for category in categories %}
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1 fw-bold">{{ category.name }}</h5>
+                    {% if category.description %}
+                    <p class="mb-1 text-muted">{{ category.description }}</p>
+                    {% endif %}
+                    <small class="text-secondary">建立時間：{{ category.created_at.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <a href="{{ url_for('recipe.index', category_id=category.id) }}" class="btn btn-outline-primary btn-sm">查看此分類食譜</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-light border text-center p-5">
+            <h5 class="text-muted">目前還沒有任何分類</h5>
+            <p class="mb-0">請使用左側的表單來建立您的第一個食譜分類！</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
+from app.models.recipe import Recipe
 
 share_bp = Blueprint('share', __name__)
 
@@ -10,4 +11,7 @@ def share_recipe(share_token):
     - 渲染 templates/recipe/share.html
     - 頁面內不包含修改和刪除功能
     """
-    pass
+    recipe = Recipe.get_by_token(share_token)
+    if not recipe:
+        abort(404)
+    return render_template('recipe/share.html', recipe=recipe)
