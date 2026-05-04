@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">新增食譜</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('recipe.create_recipe') }}" method="POST">
+                    
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-bold">食譜名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" required placeholder="例如：紅燒肉">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label fw-bold">分類</label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            <option value="">未分類</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image_url" class="form-label fw-bold">圖片網址</label>
+                        <input type="url" class="form-control" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+                        <div class="form-text">請貼上公開的圖片連結（選填）</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ingredients" class="form-label fw-bold">食材 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="ingredients" name="ingredients" rows="5" required placeholder="豬五花肉 500g&#10;醬油 2大匙&#10;冰糖 1大匙..."></textarea>
+                        <div class="form-text">每項食材請換行填寫</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="steps" class="form-label fw-bold">步驟 <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="steps" name="steps" rows="6" required placeholder="1. 將豬肉切塊...&#10;2. 熱鍋下少許油..."></textarea>
+                        <div class="form-text">每個步驟請換行填寫</div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('recipe.index') }}" class="btn btn-light me-md-2">取消</a>
+                        <button type="submit" class="btn btn-primary">儲存食譜</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

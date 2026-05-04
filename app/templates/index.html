@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>我的食譜清單</h2>
+    <a href="{{ url_for('recipe.create_recipe_page') }}" class="btn btn-primary">➕ 新增食譜</a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="{{ url_for('recipe.index') }}" method="GET" class="d-flex align-items-center">
+                    <label class="me-2 fw-bold">篩選分類：</label>
+                    <select name="category_id" class="form-select w-auto me-2" onchange="this.form.submit()">
+                        <option value="">全部</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if request.args.get('category_id')|int == cat.id %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for recipe in recipes %}
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            {% if recipe.image_url %}
+            <img src="{{ recipe.image_url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center text-muted" style="height: 200px;">
+                <span>無圖片</span>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text">
+                    <span class="badge bg-secondary mb-2">
+                        {{ recipe.category.name if recipe.category else '未分類' }}
+                    </span>
+                </p>
+                <p class="card-text text-truncate">{{ recipe.ingredients }}</p>
+            </div>
+            <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
+                <a href="{{ url_for('recipe.recipe_detail', id=recipe.id) }}" class="btn btn-outline-primary btn-sm">查看詳情</a>
+                <small class="text-muted align-self-center">{{ recipe.created_at.strftime('%Y-%m-%d') }}</small>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5">
+        <p class="text-muted fs-5">目前還沒有任何食譜，趕快來新增一個吧！</p>
+        <a href="{{ url_for('recipe.create_recipe_page') }}" class="btn btn-primary mt-2">新增食譜</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
