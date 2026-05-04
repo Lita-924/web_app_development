@@ -28,7 +28,7 @@
                         <a class="nav-link" href="{{ url_for('category.list_categories') }}">分類管理</a>
                     </li>
                 </ul>
-                <form class="d-flex ms-3" action="{{ url_for('search.search_recipes') }}" method="GET">
+                <form class="d-flex ms-3" action="{{ url_for('search.search_recipe') }}" method="GET">
                     <input class="form-control me-2" type="search" placeholder="搜尋食譜..." name="q" aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">搜尋</button>
                 </form>
