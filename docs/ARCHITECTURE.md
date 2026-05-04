@@ -147,7 +147,7 @@ app.py
 
 ### 決策 3：模板繼承（Template Inheritance）統一版面
 
-**做法**：所有頁面繼承 `base.html`，在 `{% block content %}` 中填入各頁內容。
+**做法**：所有頁面繼承 `base.html`，在 {% raw %}`{% block content %}`{% endraw %} 中填入各頁內容。
 
 **原因**：
 - 導覽列、頁首、頁尾只需維護一份
